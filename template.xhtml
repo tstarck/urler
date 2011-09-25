@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<?xml-stylesheet title="Urler" href="urler.css" media="screen"?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"> 
+<head> 
+<title>urler</title> 
+<link rel="shortcut icon" type="image/png" href="../icon.png" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+
+$('document'.ready(function() {
+	$.getJSON('json.php', function(data) {
+		var items = [];
+
+		$.each(data, function(key, val) {
+			items.push('<li id="' + key + '">' + val + '</li>');
+		};
+
+		$('<ul/>', {
+			'class': 'my-list',
+			html: items.join('')
+		}).appendTo('body');
+});
+
+</script>
+</head> 
+<body>
+<div id="root">
+</div> 
+</body> 
+</html> 
