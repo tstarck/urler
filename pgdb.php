@@ -3,9 +3,11 @@
 require '../config/db.php';
 
 class PGDB {
+	private $resource;
 	private $connection;
 
 	function __construct() {
+		$resource = false;
 		$connection = pg_connect($db_connection_string);
 	}
 
@@ -17,12 +19,20 @@ class PGDB {
 		return ($connection !== false);
 	}
 
-	public function query($qry_str) {
+	public function query($query) {
 		if ($this->ok()) {
-			return pg_fetch_array(pg_query($qry_str));
+			$resource = pg_query($query);
 		}
 
-		return false;
+		return ($resource !== false)? true; false;
+	}
+
+	public function getline() {
+		return pg_fetch_assoc($resource);
+	}
+
+	public function getall() {
+		return pg_fetch_all($resource);
 	}
 }
 
