@@ -5,27 +5,27 @@
 <head> 
 <title>urler</title> 
 <link rel="shortcut icon" type="image/png" href="../icon.png" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+<![CDATA[
 
-$('document'.ready(function() {
-	$.getJSON('json.php', function(data) {
-		var items = [];
-
-		$.each(data, function(key, val) {
-			items.push('<li id="' + key + '">' + val + '</li>');
-		};
-
-		$('<ul/>', {
-			'class': 'my-list',
-			html: items.join('')
-		}).appendTo('body');
+$(document).ready(function() {
+	$.getJSON('json.php', function (data) {
+		$.each(data, function (key, val) {
+			$("<li>" + key + " :: " + val + "</li>").appendTo('#list');
+		});
+	});
 });
 
+// var obj = jQuery.parseJSON('{"name":"John"}');
+
+]]>
 </script>
 </head> 
 <body>
-<div id="root">
-</div> 
+
+<ul id="list">
+</ul>
+
 </body> 
 </html> 

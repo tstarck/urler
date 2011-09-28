@@ -7,8 +7,8 @@ class PGDB {
 	private $connection;
 
 	function __construct() {
-		$resource = false;
-		$connection = pg_connect($db_connection_string);
+		$this->resource = false;
+		$this->connection = pg_connect($db_connection_string);
 	}
 
 	function __destruct() {
@@ -21,18 +21,20 @@ class PGDB {
 
 	public function query($query) {
 		if ($this->ok()) {
-			$resource = pg_query($query);
+			$this->resource = pg_query($this->connection, $query);
 		}
 
-		return ($resource !== false)? true; false;
-	}
-
-	public function getline() {
-		return pg_fetch_assoc($resource);
+		return ($this->resource !== false);
 	}
 
 	public function getall() {
-		return pg_fetch_all($resource);
+		if ($this->resource === false) return;
+		return pg_fetch_all($this->resource);
+	}
+
+	public function getline() {
+		if ($this->resource === false) return;
+		return pg_fetch_assoc($this->resource);
 	}
 }
 

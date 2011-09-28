@@ -2,28 +2,39 @@
 
 require 'pgdb.php';
 
-function quit($msg) {
-	header("Content-Type: text/plain");
-	echo "$msg\n";
-	die();
+# DELETE FROM urler_log
+#   WHERE at < '2011-09-28 20:04:41.0' RETURNING url;
+
+function quit($data) {
+	# header("Content-Type: text/plain");
+	header("Content-Type: application/json");
+	# var_dump($data);
+	echo json_encode($data);
+	exit();
 }
 
 $db = new PGDB();
 
 if (!$db->ok()) {
-	quit("No db connection");
+	quit(array(0 => "DB"));
 }
 
 $load = "SELECT * FROM urler_log ORDER BY at DESC";
 
 if ($db->query($load)) {
-	# header("Content-Type: application/json");
-	header("Content-Type: text/plain");
-	print_r($pg->getall());
-	echo json_encode($pg->getall());
+	$data = array();
+
+	while (($line = $db->getline()) !== false) {
+		array_push(
+			$data,
+			array($line["at"] => $line["url"])
+		);
+	}
+
+	quit($data);
 }
 else {
-	quit("Query failed");
+	quit(array(0 => "Q"));
 }
 
 ?>

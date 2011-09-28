@@ -5,13 +5,13 @@ require 'pgdb.php';
 function quit($msg) {
 	header("Content-Type: text/plain");
 	echo "$msg\n";
-	die();
+	exit();
 }
 
 $db = new PGDB();
 
 if (!$db->ok()) {
-	quit("No db connection");
+	quit("DB");
 }
 
 $save = "SELECT urler_save('%s')";
@@ -19,13 +19,14 @@ $save = "SELECT urler_save('%s')";
 $url = (isset($_GET["url"]))? $_GET["url"]: false;
 
 if ($url) {
-	if ($db->query(sprintf($save, pg_escape_string($url)))) {
-		header("Content-Type: text/plain");
+	$qrystr = sprintf($save, pg_escape_string($url));
+
+	if ($db->query($qrystr)) {
 		$line = $db->getline();
-		echo $line["urler_save"];
+		quit($line["urler_save"]);
 	}
 	else {
-		quit("Query failed");
+		quit("Q");
 	}
 }
 else {
