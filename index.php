@@ -31,7 +31,7 @@ if ($url) {
 }
 else {
 	header("Content-Type: application/xhtml+xml; charset=utf-8");
-	readfile('template.xhtml');
+	readfile("urler.xhtml");
 }
 
 ?>
