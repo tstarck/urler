@@ -25,7 +25,7 @@ if ($db->query($load)) {
 	while (($line = $db->getline()) !== false) {
 		array_push(
 			$data,
-			array($line["at"] => $line["url"])
+			array($line["url"] => $line["at"])
 		);
 	}
 

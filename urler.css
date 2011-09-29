@@ -1,0 +1,43 @@
+/* urler.css
+ * Copyright (c) 2011 Tuomas Starck
+ */
+
+html {
+	color: black;
+	background-color: #50585f;
+}
+
+body {
+	padding: 0;
+	margin: 1em auto;
+	max-width: 900px;
+	color: black;
+	background-color: white;
+	border: solid 1px black;
+}
+
+h1 {
+	margin: -3px -3px 0 -3px;
+	padding: 0.1em 1em;
+	color: white;
+	background-color: #50585f;
+	font: 24pt sans-serif;
+	text-shadow: black 0 0 4px;
+}
+
+p {
+	font: 10pt/12pt serif;
+}
+
+a {
+	color: #702;
+	background-color: inherit;
+	text-decoration: none;
+}
+
+a.del {
+	margin: 0 1em;
+	color: #201;
+	background-color: inherit;
+	font: bold 12pt/12pt serif;
+}
