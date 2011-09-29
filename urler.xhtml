@@ -6,26 +6,9 @@
 <title>urler</title> 
 <link rel="shortcut icon" type="image/png" href="../icon.png" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript">
-<![CDATA[
-
-$(document).ready(function() {
-	$.getJSON('json.php', function (data) {
-		$.each(data, function (key, val) {
-			$("<li>" + key + " :: " + val + "</li>").appendTo('#list');
-		});
-	});
-});
-
-// var obj = jQuery.parseJSON('{"name":"John"}');
-
-]]>
-</script>
+<script type="text/javascript" src="urler.js"></script>
 </head> 
-<body>
-
-<ul id="list">
-</ul>
-
+<body id="debug">
+<ul id="list"></ul>
 </body> 
 </html> 

@@ -6,9 +6,7 @@ require 'pgdb.php';
 #   WHERE at < '2011-09-28 20:04:41.0' RETURNING url;
 
 function quit($data) {
-	# header("Content-Type: text/plain");
 	header("Content-Type: application/json");
-	# var_dump($data);
 	echo json_encode($data);
 	exit();
 }
