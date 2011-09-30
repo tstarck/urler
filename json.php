@@ -2,13 +2,10 @@
 
 require 'pgdb.php';
 
-# DELETE FROM urler_log
-#   WHERE at < '2011-09-28 20:04:41.0' RETURNING url;
-
 function quit($data) {
 	header("Content-Type: application/json");
 	echo json_encode($data);
-	exit();
+	exit;
 }
 
 $db = new PGDB();
@@ -18,6 +15,19 @@ if (!$db->ok()) {
 }
 
 $load = "SELECT * FROM urler_log ORDER BY at DESC";
+$del = "DELETE FROM urler_log WHERE at <= '%s' RETURNING url";
+
+$datetime = (isset($_GET["del"]))? $_GET["del"]: false;
+
+if ($datetime) {
+	$qrystr = sprintf($del, pg_escape_string($datetime));
+
+	if ($db->query($qrystr)) {
+		header("Location: /urler/");
+	}
+
+	exit;
+}
 
 if ($db->query($load)) {
 	$data = array();

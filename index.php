@@ -5,7 +5,7 @@ require 'pgdb.php';
 function quit($msg) {
 	header("Content-Type: text/plain");
 	echo "$msg\n";
-	exit();
+	exit;
 }
 
 $db = new PGDB();
