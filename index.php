@@ -2,6 +2,10 @@
 
 require 'pgdb.php';
 
+function param($id) {
+	return (isset($_GET[$id]))? pg_escape_string(urldecode($_GET[$id])): false;
+}
+
 function quit($msg) {
 	header("Content-Type: text/plain");
 	echo "$msg\n";
@@ -14,12 +18,14 @@ if (!$db->ok()) {
 	quit("DB");
 }
 
-$save = "SELECT urler_save('%s')";
+$save = "SELECT urler_save('%s', '%s', '%s')";
 
-$url = (isset($_GET["url"]))? $_GET["url"]: false;
+$url = param("url");
+$nick = param("nick");
+$chan = param("chan");
 
 if ($url) {
-	$qrystr = sprintf($save, pg_escape_string($url));
+	$qrystr = sprintf($save, $url, $nick, $chan);
 
 	if ($db->query($qrystr)) {
 		$line = $db->getline();
