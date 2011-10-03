@@ -14,8 +14,8 @@ if (!$db->ok()) {
 	quit(array(0 => "DB"));
 }
 
-$load = "SELECT * FROM urler_log ORDER BY at DESC";
-$del = "DELETE FROM urler_log WHERE at <= '%s' RETURNING url";
+$load = "SELECT * FROM urler_log WHERE seen = 'false' ORDER BY at DESC";
+$del = "UPDATE urler_log SET seen = 'true' WHERE at <= '%s' RETURNING url";
 
 $datetime = (isset($_GET["del"]))? $_GET["del"]: false;
 

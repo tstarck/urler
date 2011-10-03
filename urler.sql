@@ -3,8 +3,9 @@
  -- Compatible with PostgreSQL's dialect
 
 CREATE TABLE urler_log (
-    url	varchar(640) PRIMARY KEY,
-    at	timestamp DEFAULT CURRENT_TIMESTAMP
+    url  varchar(640) PRIMARY KEY,
+    at   timestamp DEFAULT CURRENT_TIMESTAMP,
+    seen BOOLEAN DEFAULT 'false'
 );
 
 CREATE FUNCTION urler_save(varchar) RETURNS integer AS $$
