@@ -11,9 +11,10 @@ use vars qw($VERSION %IRSSI);
 use Irssi;
 use POSIX;
 use URI::Find;
+use URI::Escape;
 use LWP::Simple;
 
-$VERSION = "0.1";
+$VERSION = "0.9";
 
 %IRSSI = (
 	authors		=> 'Tuomas Starck',
@@ -22,6 +23,8 @@ $VERSION = "0.1";
 	license		=> 'WTFPLv2',
 	description	=> 'Find and log urls'
 );
+
+my $base = "http://tljstarc.users.cs.helsinki.fi/urler/?url=%s&nick=%s&chan=%s";
 
 sub forkget($$$) {
 	my ($chan, $data, $nick) = @_;
@@ -34,7 +37,6 @@ sub forkget($$$) {
 	}
 	else {
 		my @all;
-		my $base = "http://tljstarc.users.cs.helsinki.fi/urler/?url=%s";
 
 		my $finder = URI::Find->new(sub {
 			my ($uri) = shift;
@@ -46,7 +48,14 @@ sub forkget($$$) {
 		POSIX::_exit(0) unless (@all);
 
 		for my $uri (@all) {
-			get(sprintf($base, $uri));
+			get(
+				sprintf(
+					$base,
+					uri_escape($uri),
+					uri_escape($nick),
+					uri_escape($chan)
+				)
+			);
 		}
 
 		POSIX::_exit(0);
