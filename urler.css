@@ -8,9 +8,8 @@ html {
 }
 
 body {
-	padding: 0 0 1em 0;
-	margin: 1em auto;
-	max-width: 900px;
+	padding: 0;
+	margin: 1em 2em;
 	color: black;
 	background-color: white;
 	border: solid 1px black;
@@ -22,27 +21,49 @@ h1 {
 	color: white;
 	background-color: #50585f;
 	font: 24pt sans-serif;
-	text-shadow: black 0 0 4px;
+	text-shadow: black 0 0 9px;
 }
 
-p {
-	font: 10pt serif;
+table {
+	margin: 1em;
 }
 
-a {
+td {
+	vertical-align: bottom;
+	font: 9pt serif;
+}
+
+td.chan {
+	color: #aaa;
+	background-color: inherit;
+	text-align: right;
+}
+
+td.nick {
+	color: #888;
+	background-color: inherit;
+}
+
+td.del > a {
+	margin: 0 0.3em;
+	color: #301;
+	background-color: inherit;
+	text-decoration: none;
+	font: bold 13pt serif;
+}
+
+td.url > a {
 	color: #602;
 	background-color: inherit;
 	text-decoration: none;
+	font: 10pt serif;
 }
 
-a.del {
-	margin: 0 0.5em 0 1em;
-	color: #201;
-	background-color: inherit;
-	font: bold 12pt/12pt serif;
+td.url > a:hover {
+	text-decoration: underline;
 }
 
-a:visited {
-	color: #bbb;
+td.url > a:visited {
+	color: #ccc;
 	background-color: inherit;
 }

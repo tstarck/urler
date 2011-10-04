@@ -4,22 +4,26 @@
 
 function str_crop(url) {
 	var cut = url;
-	if (cut.length > 100) {
-		cut = url.substring(0, 42) + "..." + url.substring(url.length - 42);
+	if (cut.length > 127) {
+		cut = url.substring(0, 63) + "..." + url.substring(url.length - 63);
 	}
 	return cut;
 }
 
 function populate_list() {
 	$.getJSON('json.php', function (data) {
-		$.each(data, function (key, val) {
-			for (var item in val) {
-				var url = "json.php?del=" + val[item];
-				var del = $('<a></a>').attr({'class' : "del", 'href' : url}).text("×");
-				var link = $('<a></a>').attr('href', item).text(str_crop(item));
-				var paragraph = $('<p></p>');
-				paragraph.append(del).append(link).appendTo('body');
-			}
+		$.each(data, function(index, element) {
+			var del  = "json.php?seen=" + element.at;
+			var row  = $('<tr></tr>');
+			var nick = $('<td></td>').attr('class', 'nick').text("<" + element.nick + ">");
+			var chan = $('<td></td>').attr('class', 'chan').text(element.chan);
+			var seen = $('<td></td>').attr('class', 'del').append(
+				$('<a></a>').attr('href', del).text("×")
+			);
+			var url  = $('<td></td>').attr('class', 'url').append(
+				$('<a></a>').attr('href', element.url).text(str_crop(element.url))
+			);
+			row.append(chan).append(nick).append(seen).append(url).appendTo('table');
 		});
 	});
 }

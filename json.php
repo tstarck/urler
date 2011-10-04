@@ -14,32 +14,21 @@ if (!$db->ok()) {
 	quit(array(0 => "DB"));
 }
 
-$load = "SELECT * FROM urler_log WHERE seen = 'false' ORDER BY at DESC";
-$del = "UPDATE urler_log SET seen = 'true' WHERE at <= '%s' RETURNING url";
+$update = "SELECT urler_prune('%s')";
 
-$datetime = (isset($_GET["del"]))? $_GET["del"]: false;
+$load = "SELECT * FROM urler_log WHERE seen = 'false' ORDER BY at DESC";
+
+$datetime = (isset($_GET["seen"]))? $_GET["seen"]: false;
 
 if ($datetime) {
-	$qrystr = sprintf($del, pg_escape_string($datetime));
+	$qrystr = sprintf($update, pg_escape_string($datetime));
 
 	if ($db->query($qrystr)) {
 		header("Location: /urler/");
 	}
-
-	exit;
 }
-
-if ($db->query($load)) {
-	$data = array();
-
-	while (($line = $db->getline()) !== false) {
-		array_push(
-			$data,
-			array($line["url"] => $line["at"])
-		);
-	}
-
-	quit($data);
+elseif ($db->query($load)) {
+	quit($db->getall());
 }
 else {
 	quit(array(0 => "Q"));

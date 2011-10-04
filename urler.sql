@@ -15,5 +15,11 @@ CREATE FUNCTION urler_save(varchar, varchar, varchar) RETURNS integer AS $$
     SELECT 200;
 $$ LANGUAGE SQL;
 
+CREATE FUNCTION urler_prune(timestamp) RETURNS integer AS $$
+	UPDATE urler_log SET seen = 'true' WHERE at <= $1;
+	DELETE FROM urler_log WHERE at < NOW() - INTERVAL '10 days';
+	SELECT 200;
+$$ LANGUAGE SQL;
+
  -- DROP FUNCTION urler_save(varchar, varchar, varchar);
  -- DROP TABLE urler_log;
