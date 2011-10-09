@@ -12,6 +12,8 @@ function str_crop(url) {
 
 function populate_list() {
 	$.getJSON('json.php', function (data) {
+		$('table').empty();
+
 		$.each(data, function(index, element) {
 			var del  = "json.php?seen=" + element.at;
 			var row  = $('<tr></tr>');
@@ -23,9 +25,13 @@ function populate_list() {
 			var url  = $('<td></td>').attr('class', 'url').append(
 				$('<a></a>').attr('href', element.url).text(str_crop(element.url))
 			);
+
 			row.append(chan).append(nick).append(seen).append(url).appendTo('table');
 		});
 	});
 }
 
-$(document).ready(populate_list);
+$(document).ready(function() {
+	populate_list();
+	$('span').click(function() { populate_list(); });
+});

@@ -24,6 +24,11 @@ h1 {
 	text-shadow: black 0 0 9px;
 }
 
+h1 > span {
+	padding: 0 0.6em;
+	font-size: 16pt;
+}
+
 table {
 	margin: 1em;
 }
