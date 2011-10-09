@@ -1,5 +1,5 @@
 # urler.pl
-# Url logging and publishing script for irssi
+# Url finding script for irssi
 # Copyright 2011 (c) Tuomas Starck
 
 use strict;
@@ -24,10 +24,16 @@ $VERSION = "0.9";
 	description	=> 'Find and log urls'
 );
 
-my $base = "http://tljstarc.users.cs.helsinki.fi/urler/?url=%s&nick=%s&chan=%s";
+Irssi::settings_add_str('urler', 'urler_location', '');
 
 sub forkget($$$) {
 	my ($chan, $data, $nick) = @_;
+
+	my $base = Irssi::settings_get_str('urler_location');
+
+	return unless $base;
+
+	$base .= "?url=%s&nick=%s&chan=%s";
 
 	my $pid = fork();
 
@@ -48,14 +54,11 @@ sub forkget($$$) {
 		POSIX::_exit(0) unless (@all);
 
 		for my $uri (@all) {
-			get(
-				sprintf(
-					$base,
-					uri_escape($uri),
-					uri_escape($nick),
-					uri_escape($chan)
-				)
-			);
+			get(sprintf($base,
+				uri_escape($uri),
+				uri_escape($nick),
+				uri_escape($chan)
+			));
 		}
 
 		POSIX::_exit(0);
@@ -69,7 +72,7 @@ sub parsepublic($$$$$) {
 
 sub parseprivate($$$$) {
 	my ($server, $data, $nick, $address) = @_;
-	forkget($server->{'nick'}, $data, $nick);
+	forkget("", $data, $nick);
 }
 
 Irssi::signal_add_last('message public', 'parsepublic');
